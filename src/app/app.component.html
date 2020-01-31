@@ -1,0 +1,38 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>
+
+
+<div class="update-notify-wrapper" *ngIf="update_avalible">
+  <div id="notification" >
+    <ng-container *ngIf="!update_downloaded"> 
+      <p >New version found</p>
+      <p >Downloading the update...</p>
+    </ng-container>
+    
+  
+
+    <ng-container *ngIf="update_downloaded">
+      <mat-icon>check_circle</mat-icon>
+      <p>Update successfully downloaded.</p>
+    </ng-container>
+    
+
+    <div class="loading"  *ngIf="!update_downloaded">
+      <mat-progress-spinner class="example-margin" mode="indeterminate"  >
+            </mat-progress-spinner>
+    </div>
+
+    <div class="button-wrapper" *ngIf="update_downloaded">
+      <button mat-button (click)="update_avalible = false">
+        Later
+      </button>
+      <button mat-button (click)="expression" >
+        Quit & Install Now
+      </button>
+    </div>
+   
+  </div>
+</div>

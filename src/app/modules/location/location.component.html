@@ -1,0 +1,34 @@
+<div class="wrapper">
+    <h1>GET LOCATION</h1>
+
+    <ng-container *ngIf="avalible_locker">
+        <div class="locker-no">
+            <div class="zone">
+                <div>ZONE</div>
+                <div>{{avalible_locker.zone_title}}</div>
+            </div>
+            <div class="no">
+                <div>NO</div>
+                <div>{{avalible_locker.title}}</div>
+            </div>
+        </div>
+    
+        <div class="location-wrapper">
+            <img src="assets/img/location-zone-A.png" alt="" class="img-responsive">
+        </div>
+    
+    
+        <div class="form-wrapper">
+            <img src="assets/img/person-icon.png" alt="" class="img-responsive">
+    
+            <div class="form-text">
+                YOU ARE HERE
+            </div>
+            
+        </div>
+    </ng-container>
+    
+
+    
+
+</div>

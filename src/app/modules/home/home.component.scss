@@ -1,0 +1,156 @@
+@import '../../../assets/css/main.scss';
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 75%;
+    background-image: url(../../../assets/img/19982.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.lang-wrapper {
+    padding: 30px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .lang {
+        width: 50%;
+        margin-bottom: 3%;
+        padding: 10px;
+        display: flex;
+        box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+        border-radius: 14px;
+        background : rgba(255, 255, 255, 0.4);
+        h2 {
+            color: black;
+            text-shadow: initial;
+            padding: 15px 0;
+            font-size: 2em;
+            display: none;
+        }
+        img {
+            max-width: 25%;
+        }
+        .lang-btn {
+            // padding-bottom: 100%;
+            // width: 10%;
+            text-align: right;
+
+            img {
+                max-width: 16%;
+            }
+        }
+    }
+}
+
+.manual-wrapper {
+    margin: -10%;
+    position: relative;
+    padding-bottom: 100%;
+    .manual-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        text-shadow: rgba(0, 0, 0, 0.7) 0px 1px 2px;
+
+        &:nth-child(1) {
+            img {
+                max-width: 40%;
+                animation-duration: 5s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                animation-name: anii-1;
+            }
+            .manual-text {
+                font-size: 3em;
+                animation-duration: 5s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                animation-name: anit-1;
+                // padding-left: 5%;
+                width: 40%;
+
+                strong {
+                    font-size: 2em;
+                }
+            }
+        }
+        &:nth-child(2) {
+            img {
+                max-width: 40%;
+                animation-duration: 5s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                animation-name: anii-2;
+            }
+            .manual-text {
+                font-size: 3em;
+    
+                animation-duration: 5s;
+                animation-timing-function: ease-in-out;
+                animation-iteration-count: infinite;
+                animation-name: anit-2;
+                // padding-left: 5%;
+
+                width: 40%;
+
+                strong {
+                    font-size: 2em;
+                }
+            }
+        }
+        
+    }
+}
+
+@keyframes anit-1 {
+	0%, 5% { transform: translateX(-50%); opacity: 0; }
+  5%,45% { transform: translateX(0); opacity: 1; }
+  50%, 100% { transform: translateX(50%); opacity: 0; }
+}
+@keyframes anii-1 {
+    0%, 5% { transform: translateY(-50%); opacity: 0; }
+    5%,45% { transform: translateY(0); opacity: 1; }
+    50%, 100% { transform: translateY(50%); opacity: 0; }
+}
+
+@keyframes anit-2 {
+    0%, 50% { transform: translateX(-50%); opacity: 0; }
+    55%,90% { transform: translateX(0); opacity: 1; }
+    95%, 100% { transform: translateX(50%); opacity: 0; }
+}
+@keyframes anii-2 {
+    0%, 50% { transform: translateY(-50%); opacity: 0; }
+    55%,90% { transform: translateY(0); opacity: 1; }
+    95%, 100% { transform: translateY(50%); opacity: 0; }
+}
+
+
+// @keyframes anit-1 {
+// 	0%, 8.3% { transform: translateX(-50%); opacity: 0; }
+//     8.3%,25% { transform: translateX(0); opacity: 1; }
+//     33.33%, 100% { transform: translateX(50%); opacity: 0; }
+// }
+@keyframes anim-2 {
+	0%, 33.33% { transform: translateX(-100%); opacity: 0; }
+  41.63%, 58.29% { transform: translateX(-50%); opacity: 1; }
+  66.66%, 100% { transform: translateX(0); opacity: 0; }
+}
+
+@keyframes anim-3 {
+	0%, 66.66% { left: -100%; opacity: 0; }
+  74.96%, 91.62% { left: 25%; opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}

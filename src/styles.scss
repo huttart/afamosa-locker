@@ -1,0 +1,26 @@
+@import './assets/css/reset.css';
+@import './assets/css/styles.css';
+
+body {
+    height: 100vh;
+    color: white;
+}
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #2196F3;
+}
+
+.mat-button-wrapper {
+    display: flex;
+    align-items: center;
+}
+.img-logo {
+    max-width: 250px;
+}

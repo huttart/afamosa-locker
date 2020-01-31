@@ -1,0 +1,48 @@
+<div class="wrapper">
+    <!-- <h1>A'Famosa</h1>
+    <h2>Water Theme Park</h2> -->
+
+
+    <div class="form-wrapper" >
+        <img src="assets/img/person-icon.png" alt="" class="img-resposive">
+
+        <div class="form-text"  [routerLink]="['/location']">
+            SCAN HERE
+        </div>
+
+        <div class="timeout">
+            <button mat-button *ngIf="!err_message && !RFID">
+                <mat-icon >timer</mat-icon>
+                00:<ng-container *ngIf="timeout < 10">0</ng-container>{{timeout}}
+                
+            </button>
+
+            <ng-container *ngIf="err_message">
+                {{err_message}}
+            </ng-container>
+
+            <div class="processing" *ngIf="processing && !err_message">
+                <span>LOADING</span> 
+                <div class="progess"></div>
+            </div>
+            
+        </div>
+
+        <div class="loading" *ngIf="loading">
+            <!-- <mat-progress-spinner class="example-margin" mode="indeterminate"  >
+            </mat-progress-spinner> -->
+
+            <div class="container">
+                <span class="circle">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  <!-- <i class="fa fa-arrow-down"></i> -->
+                </span>
+                <span class="pulse"></span>
+              </div>
+        </div>
+
+        
+        
+    </div>
+
+</div>

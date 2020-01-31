@@ -7,7 +7,7 @@ import { ElectronService } from './services/electron.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'gmc-locker';
+  title = 'Afamosa locker';
   update_avalible = true;
   update_downloaded = false;
 
@@ -22,10 +22,11 @@ export class AppComponent {
     this._ElectronService.isUpdateAvalible();
 
     setInterval(() => {
-      // this.update_avalible = this._ElectronService.update_avalible;
-      // this.update_downloaded = this._ElectronService.update_downloaded;
+      this.update_avalible = this._ElectronService.update_avalible;
+      this.update_downloaded = this._ElectronService.update_downloaded;
 
       console.log(this.update_avalible);
+      console.log(this.update_downloaded);
 
       if (this.update_avalible) {
 
@@ -36,12 +37,12 @@ export class AppComponent {
 
     }, 1000);
 
-    setTimeout(() => {
-      this.update_downloaded = true;
-    }, 4000);
+    // setTimeout(() => {
+    //   this.update_downloaded = true;
+    // }, 4000);
   }
 
   restartApp () {
-    
+    this._ElectronService.RestartAndInstallUpdate();
   }
 }

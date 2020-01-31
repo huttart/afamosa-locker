@@ -1,16 +1,39 @@
 {
   "name": "gmc-locker",
-  "version": "0.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/huttart/afamosa-locker.git"
-  },
+  "version": "0.0.2",
   "main": "app.js",
+  "build": {
+    "appId": "afamosa-frontend",
+    "productName": "Afamosa locker",
+    "files": [
+      "**/*",
+      "dist/**/*"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "url": "https://github.com/huttart/afamosa-locker.git"
+      }
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "dist"
+    },
+    "asar": false,
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "runAfterFinish": true
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "electron .",
-    "build": "electron-builder build --mac --win --publish never",
-    "deploy": "electron-builder build --mac --win --publish always",
+    "build": "electron-builder build  --ia32 --win --publish never",
+    "deploy": "electron-builder build --ia32 --win --publish always",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

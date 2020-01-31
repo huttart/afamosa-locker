@@ -2,7 +2,7 @@ const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 const ffi = require('ffi-napi');
 var path = require('path');
-var dllPath = path.resolve('worker-service/rfid-service/mwrf32.dll');
+var dllPath = path.resolve(__dirname + '/mwrf32.dll');
 console.log(dllPath);
 var lib = ffi.Library(dllPath, {
     'rf_init': ['int  ', ['int', 'long']],

@@ -43,7 +43,8 @@ function initWindow() {
   appWindow.webContents.openDevTools()
 
   appWindow.on('closed', function () {
-    appWindow = null
+    appWindow = null;
+    app.quit();
   })
 
   appWindow.once('ready-to-show', () => {

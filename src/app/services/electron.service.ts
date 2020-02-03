@@ -117,6 +117,15 @@ export class ElectronService {
         this.ipcRenderer.removeAllListeners('update_downloaded');
         this.update_downloaded = true;
       });
+      this.ipcRenderer.on('update_not_available', () => {
+        this.ipcRenderer.removeAllListeners('update_not_available');
+        console.log('update is not available');
+      });
+      this.ipcRenderer.on('error', (event, arg) => {
+        this.ipcRenderer.removeAllListeners('error');
+        console.log('error message');
+        console.log(arg);
+      })
     }
   }
 

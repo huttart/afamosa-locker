@@ -9,6 +9,7 @@ const { autoUpdater } = require('electron-updater');
 
 let appWindow, rfidWorkerWindow
 
+
 process.on('uncaughtException', function (err) {
   console.log(err);
 })
@@ -48,8 +49,11 @@ function initWindow() {
   })
 
   appWindow.once('ready-to-show', () => {
+    console.log('ready to check update');
     autoUpdater.checkForUpdatesAndNotify();
   });
+
+
 
   creatRfidWokerWindow();
 }
@@ -80,6 +84,10 @@ function sendWindowMessage(targetWindow, message, payload) {
   targetWindow.webContents.send(message, payload);
 }
 
+function sendMessageForAutoUpdate(message, payload) {
+  appWindow.webContents.send(message, payload);
+}
+
 app.on('ready', async () => {
   initWindow();
 
@@ -93,11 +101,17 @@ app.on('ready', async () => {
 
   ipcMain.on('app_version', (event) => {
     event.sender.send('app_version', { version: app.getVersion() });
+    // autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdatesAndNotify();
+    // console.log(autoUpdater.getFeedURL());
   });
 
   ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
   });
+
+
+
 
 })
 
@@ -115,9 +129,21 @@ app.on('activate', function () {
 })
 
 
+
+
 autoUpdater.on('update-available', () => {
-  mainWindow.webContents.send('update_available');
+  appWindow.webContents.send('update_available');
 });
 autoUpdater.on('update-downloaded', () => {
-  mainWindow.webContents.send('update_downloaded');
+  appWindow.webContents.send('update_downloaded');
+});
+autoUpdater.on('update-not-available', () => {
+  appWindow.webContents.send('update_not_available');
+});
+
+autoUpdater.on('error', (err, msg) => {
+  console.log(msg); //print msg , you can find the cash reason.
+  appWindow.webContents.send('error', msg);
+  // appWindow.webContents.send('error','error !!!');
+  sendMessageForAutoUpdate('error', { msg: msg });
 });

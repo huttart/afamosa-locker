@@ -8,7 +8,7 @@ import { ElectronService } from './services/electron.service';
 })
 export class AppComponent {
   title = 'Afamosa locker';
-  update_avalible = true;
+  update_avalible = false;
   update_downloaded = false;
 
   constructor (

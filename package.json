@@ -1,13 +1,19 @@
 {
   "name": "gmc-locker",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huttart/afamosa-locker.git"
+  },
   "build": {
     "appId": "afamosa-frontend",
     "productName": "Afamosa locker",
     "files": [
       "**/*",
-      "dist/**/*"
+      "dist/**/*",
+      "icon.ico",
+      "icon.png"
     ],
     "publish": [
       {

@@ -27,6 +27,21 @@ export class ManualComponent implements OnInit {
   arduino;
   rf_reader;
 
+  lang;
+
+
+  lang_content = {
+    'english': {
+      topic_1: 'SCAN HERE',
+    },
+    'chinese' : {
+      topic_1: '在這裡掃描'
+    },
+    'malaysia' : {
+      topic_1: 'SCAN DI SINI'
+    }
+  }
+
   constructor(
     private _ElectronService: ElectronService,
     private router: Router,
@@ -57,26 +72,14 @@ export class ManualComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ONINIT');
+    this.lang = this._LockerService.lang;
+    console.log(this.lang_content[this.lang]);
     this.interval_sub = setInterval(() => {
       this.timeout -= 1;
       if (this.timeout <= 0) {
         this.router.navigate(['/']);
       }
     }, 1000);
-
-    // this._ElectronService.serialPort.list().then(ports => {
-    //   ports.forEach(port => {
-    //     if (port.manufacturer == "FTDI") {
-    //       this.rf_reader = this._ElectronService.rfidReaderInit(port.path);
-    //     } else {
-    //       this.arduino = this._ElectronService.newSerialPort(port.path);
-    //     }
-    //   });
-
-    //   this.readDataFromRfidReader();
-
-    // });
 
     this._ElectronService.rfidReaderInit('');
     this.readDataFromRfidReader();

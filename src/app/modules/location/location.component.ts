@@ -11,6 +11,23 @@ import { Router } from '@angular/router';
 export class LocationComponent implements OnInit {
   avalible_locker;
   settimeout_sub;
+  lang;
+  lang_content = {
+    'english': {
+      topic_1: 'LOCATION',
+      topic_2: 'YOU ARE HERE'
+    },
+    'chinese' : {
+      topic_1: '位置',
+      topic_2: '你在這裡'
+    },
+    'malaysia' : {
+      topic_1: 'LOKASI',
+      topic_2: 'KAMU DI SINI'
+    }
+  }
+
+  
   constructor(
     private _TaskService: TaskService,
     private _LockerService: LockerService,
@@ -19,6 +36,7 @@ export class LocationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lang = this._LockerService.lang;
     this.avalible_locker = this._LockerService.avalible_locker;
     if (!this.avalible_locker) {
       this.router.navigate(['/']);

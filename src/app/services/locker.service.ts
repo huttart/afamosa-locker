@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class LockerService {
   api_url = environment.api_url + 'locker/';
   public avalible_locker;
-  public lang = '';
+  public lang = 'english';
 
   constructor(
     private http: HttpClient,

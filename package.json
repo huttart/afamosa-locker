@@ -1,6 +1,6 @@
 {
   "name": "gmc-locker",
-  "version": "0.2.15",
+  "version": "0.3.0",
   "main": "app.js",
   "repository": {
     "type": "git",

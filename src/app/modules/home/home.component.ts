@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   langOnClick (lang) {
     this._LockerService.lang = lang;
+    console.log(lang);
     this.router.navigate(['/manual']);
   }
 

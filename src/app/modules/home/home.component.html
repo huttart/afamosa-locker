@@ -27,7 +27,7 @@
     </div>
 
     <div class="lang-wrapper">
-        <div class="lang" [routerLink]="['/manual']" >
+        <div class="lang" (click)="langOnClick('english')">
             <img src="assets/img/lang-en.png" class="img-responsive" alt="">
             <h2>EN</h2>
             <div class="lang-btn">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="lang" [routerLink]="['/manual']" >
+        <div class="lang"  (click)="langOnClick('chinese')">
             <img src="assets/img/lang-cn.png" class="img-responsive" alt="">
             <h2>中國</h2>
             <div class="lang-btn">
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="lang" [routerLink]="['/manual']" >
+        <div class="lang" (click)="langOnClick('malaysia')">
             <img src="assets/img/lang-male.png" class="img-responsive" alt="">
             <h2>māleseīy</h2>
             <div class="lang-btn">

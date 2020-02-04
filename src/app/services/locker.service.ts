@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class LockerService {
   api_url = environment.api_url + 'locker/';
   public avalible_locker;
+  public lang = '';
 
   constructor(
     private http: HttpClient,
@@ -20,7 +21,8 @@ export class LockerService {
   activateLockerByRfid(rfid) {
     return this.http.get(this.api_url + 'activateLockerByRfid', {
       params : {
-        rfid: rfid
+        rfid: rfid,
+        lang: this.lang
       }
     }).toPromise();
   }

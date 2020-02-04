@@ -2,10 +2,17 @@ div.main-content {
     // padding: 15px;
 }
 
-
+.app-version {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    padding: 15px;
+}
 #notification {
     padding: 4%;
-    border-radius: 5px;
+    border-radius: 45px;
     background-color: white;
     font-size: 1.7em;
     color: #474747;

@@ -40,6 +40,7 @@ export class ElectronService {
   update_downloaded = false;
 
 
+
   constructor() {
     if (this.isElectron()) {
       this.serialPort = window.require('serialport');
@@ -68,6 +69,13 @@ export class ElectronService {
         console.log(payload);
         this.rfid_data = payload.rfidData;
       });
+
+      // this.ipcRenderer.on('update_downloaded', () => {
+      //   this.ipcRenderer.removeAllListeners('update_downloaded');
+      //   this.update_downloaded = true;
+      // });
+
+
     }
   }
 
@@ -125,13 +133,27 @@ export class ElectronService {
         this.ipcRenderer.removeAllListeners('error');
         console.log('error message');
         console.log(arg);
+      });
+      this.ipcRenderer.on('download_progress', (event, arg) => {
+        console.log(arg);
       })
     }
   }
 
-  RestartAndInstallUpdate () {
+  RestartAndInstallUpdate() {
     if (this.isElectron()) {
       this.ipcRenderer.send('restart_app');
+    }
+  }
+
+  messageToArduino(data) {
+    console.log('sendDataToArduino 2');
+    if (this.isElectron()) {
+      console.log('sendDataToArduino 3');
+      this.ipcRenderer.send('message-to-arduino', {
+        command: 'send_message_to_arduino',
+        payload: data
+      });
     }
   }
 

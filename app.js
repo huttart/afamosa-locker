@@ -140,7 +140,13 @@ autoUpdater.on('update-downloaded', () => {
 autoUpdater.on('update-not-available', () => {
   appWindow.webContents.send('update_not_available');
 });
-
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  appWindow.webContents.send('update_not_available');
+  appWindow.webContents.send('download_progress',log_message);
+});
 autoUpdater.on('error', (err, msg) => {
   console.log(msg); //print msg , you can find the cash reason.
   appWindow.webContents.send('error', msg);

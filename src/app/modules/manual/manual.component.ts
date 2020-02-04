@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TaskService } from 'src/app/services/task.service';
 import { LockerService } from 'src/app/services/locker.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ipcRenderer } from 'electron';
 
 // import * as SerialPort from 'serialport';
 
@@ -82,10 +83,12 @@ export class ManualComponent implements OnInit {
   }
 
   sendDataToArduino(locker) {
-    this.arduino.serial_port.write(JSON.stringify({
-      lockerID: '13',
-      state: 0,
-    }));
+    // this.arduino.serial_port.write(JSON.stringify({
+    //   lockerID: '13',
+    //   state: 0,
+    // }));
+    console.log('sendDataToArduino 1');
+    this._ElectronService.messageToArduino(locker);
   }
 
   readDataFromRfidReader() {
@@ -107,7 +110,7 @@ export class ManualComponent implements OnInit {
     this._LockerService.activateLockerByRfid(rfid).then((avalible_locker: any) => {
       setTimeout(() => {
         if (avalible_locker.status) {
-          // this.sendDataToArduino(avalible_locker.data);
+          this.sendDataToArduino(avalible_locker.data);
           console.log(avalible_locker);
           this._LockerService.avalible_locker = avalible_locker.data;
           this.router.navigate(['/location']);

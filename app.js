@@ -16,7 +16,7 @@ process.on('uncaughtException', function (err) {
 
 function initWindow() {
   appWindow = new BrowserWindow({
-    width: 800,
+    width: 1400,
     height: 1024,
     webPreferences: {
       nodeIntegration: true

@@ -8,8 +8,148 @@
     background-position-y: -10%;
 }
 
+h2 {
+    font-weight: 900;
+}
+
+.manual-wrapper {
+    margin-top: 30%;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 85%;
+    .manual-container {
+        position: absolute;
+
+        &:nth-child(1) {
+            animation-duration: 8s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-name: manual-img-1;
+        }
+
+        &:nth-child(2) {
+            animation-duration: 8s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-name: manual-img-2;
+        }
+
+        img {
+            max-width: 50%;
+        }
+        .manual-text {
+            // padding: 5%;
+            padding-top: 3%;
+            padding-bottom: 8%;
+            font-size: 2.2em;
+            font-weight: 900;
+            line-height: 1.7em;
+            div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.number {
+                    font-size: 1.4em;
+                    margin-bottom: 20px;
+                }
+
+                span {
+                    min-width: 460px;
+                    text-align: left;
+                }
+            }
+            img {
+                max-width: 80px;
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .c-nav {
+        ol {
+            display: flex;
+            justify-content: center;
+            li {
+                &:nth-child(1).trans  {
+                    span::before {
+                        animation-name: manual-ol;
+                        animation-duration: 2s;
+                        animation-iteration-count: infinite;
+                    }
+
+                    span::after {
+                        animation-name: manual-ol-m1;
+                        animation-duration: 2s;
+                        animation-iteration-count: infinite;
+                    }
+                   
+                }
+                &:nth-child(2).trans {
+                    span::before {
+                        animation-name: manual-ol2;
+                        animation-duration: 2s;
+                        animation-iteration-count: infinite;
+                    }
+
+                    span::after {
+                        animation-name: manual-ol-m2;
+                        animation-duration: 2s;
+                        animation-iteration-count: infinite;
+                    }
+                }
+                span {
+                    width: 25px;
+                    height: 25px;
+                    display: inline-block;
+                    position: relative;
+                    border-radius: 100px;
+
+                    margin: 10px;
+
+                    &::before {
+                        position: absolute;
+                        background-color: rgba(0, 0, 0, 0.15);
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        border-radius: 100px;
+
+                        content: '';
+                    }
+
+                    
+                }
+
+                &.active {
+                    span::after {
+                        position: absolute;
+                        background-color: rgba(0, 0, 0, 0.7);
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        border-radius: 100px;
+                        // display: none;
+                        content: '';
+
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .form-wrapper {
-    margin-top: 65%;
+    margin-top: 5%;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
         max-width: 40%;
@@ -27,6 +167,8 @@
         // text-align: center;
         display: flex;
         justify-content: center;
+        position: absolute;
+        top: 15%;
     }
 
     .processing {
@@ -197,4 +339,50 @@
 	0% { transform: translateX(-100%); }
   70% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
+}
+
+
+@keyframes manual-ol {
+    0% {
+        width: 25px;
+    }
+    25%, 100% {
+        width: 70px;
+    }
+}
+@keyframes manual-ol-m1 {
+    0% {
+        width: 25px;
+    }
+    25%, 100% {
+        left: 45px;
+        width: 25px;
+    }
+}
+@keyframes manual-ol2 {
+    0% {
+    }
+    25%, 100% {
+        left: -45px;
+    }
+}
+@keyframes manual-ol-m2 {
+    0% {
+        width: 25px;
+    }
+    25%, 100% {
+        left: -45px;
+        width: 25px;
+    }
+}
+
+@keyframes manual-img-1 {
+    0%, 5% { transform: translateX(-50%); opacity: 0; }
+    5%,45% { transform: translateX(0); opacity: 1; }
+    50%, 100% { transform: translateX(50%); opacity: 0; }
+}
+@keyframes manual-img-2 {
+    0%, 50% { transform: translateX(-50%); opacity: 0; }
+    55%,90% { transform: translateX(0); opacity: 1; }
+    95%, 100% { transform: translateX(50%); opacity: 0; }
 }

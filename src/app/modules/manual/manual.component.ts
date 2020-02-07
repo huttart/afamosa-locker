@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { TaskService } from 'src/app/services/task.service';
 import { LockerService } from 'src/app/services/locker.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ipcRenderer } from 'electron';
-
+import { ArduinoService } from 'src/app/services/arduino.service';
 // import * as SerialPort from 'serialport';
 
 @Component({
@@ -48,9 +47,10 @@ export class ManualComponent implements OnInit {
     private _TaskService: TaskService,
     private _LockerService: LockerService,
     private _snackBar: MatSnackBar,
+    private _ArduinoService: ArduinoService
 
   ) {
-    this.timeout = 1000;
+    this.timeout = 5;
   }
 
   ngOnDestroy(): void {
@@ -74,24 +74,25 @@ export class ManualComponent implements OnInit {
   ngOnInit() {
     this.lang = this._LockerService.lang;
     console.log(this.lang_content[this.lang]);
-    this.interval_sub = setInterval(() => {
-      this.timeout -= 1;
-      if (this.timeout <= 0) {
-        this.router.navigate(['/']);
-      }
-    }, 1000);
+    // this.interval_sub = setInterval(() => {
+    //   this.timeout -= 1;
+    //   if (this.timeout <= 0) {
+    //     // this.router.navigate(['/']);
+    //     this.processing = true;
+    //     this.loading = false;
+    //   }
+    // }, 1000);
 
     this._ElectronService.rfidReaderInit('');
     this.readDataFromRfidReader();
   }
 
   sendDataToArduino(locker) {
-    // this.arduino.serial_port.write(JSON.stringify({
-    //   lockerID: '13',
-    //   state: 0,
-    // }));
-    console.log('sendDataToArduino 1');
-    this._ElectronService.messageToArduino(locker);
+    this._ArduinoService.insertTask(locker.title).then((res:any) => {
+      if (res.status) {
+        this.router.navigate(['/location']);
+      }
+    });
   }
 
   readDataFromRfidReader() {
@@ -100,7 +101,7 @@ export class ManualComponent implements OnInit {
       if (rfid_data) {
         this._ElectronService.rfid_data = null;
         clearInterval(this.interval_sub2);
-        clearInterval(this.interval_sub);
+        // clearInterval(this.interval_sub);
         this.trytoActivateLocker(rfid_data);
       }
     }, 200);
@@ -113,10 +114,10 @@ export class ManualComponent implements OnInit {
     this._LockerService.activateLockerByRfid(rfid).then((avalible_locker: any) => {
       setTimeout(() => {
         if (avalible_locker.status) {
-          this.sendDataToArduino(avalible_locker.data);
           console.log(avalible_locker);
           this._LockerService.avalible_locker = avalible_locker.data;
-          this.router.navigate(['/location']);
+          this.sendDataToArduino(avalible_locker.data);
+
         } else {
           this.err_message = avalible_locker.error;
           setTimeout(() => {

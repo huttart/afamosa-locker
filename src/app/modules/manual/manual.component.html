@@ -2,30 +2,84 @@
     <!-- <h1>A'Famosa</h1>
     <h2>Water Theme Park</h2> -->
 
+    <img src="assets/img/afamosa-logo.png" alt="" class="img-logo">
+    <!-- <h2>Water Theme Park</h2> -->
 
-    <div class="form-wrapper" >
-        <img src="assets/img/person-icon.png" alt="" class="img-resposive">
+    <div class="manual-wrapper">
+        <div class="manual-container">
+            <img src="assets/img/manual-1.png" alt="" class="img-responsive manual-img">
 
-        <div class="form-text"  [routerLink]="['/location']">
-            {{lang_content[lang].topic_1}}
+            <div class="manual-text">
+                <div class="number">1.</div>
+                <div>
+                    <img src="assets/img/lang-en.png" class="img-responsive" alt="">
+                    <span>Scan your wristbands.</span>
+                </div>
+                <div>
+                    <img src="assets/img/lang-male.png" class="img-responsive" alt="">
+                    <span>Imbas gelang tangan anda.</span>
+                </div>
+                <div>
+                    <img src="assets/img/lang-cn.png" class="img-responsive" alt="">
+                    <span>掃描腕帶.</span>
+                </div>
+            </div>
+        </div>
+        <div class="manual-container">
+            <img src="assets/img/manual-2.png" alt="" class="img-responsive manual-img">
+
+            <div class="manual-text">
+                <div class="number">2.</div>
+                <div>
+                    <img src="assets/img/lang-en.png" class="img-responsive" alt="">
+                    <span>Get locker number.</span>
+                    
+                </div>
+                <div>
+                    <img src="assets/img/lang-male.png" class="img-responsive" alt="">
+                    <span>Dapatkan nombor loker.</span>
+                    
+                </div>
+                <div>
+                    <img src="assets/img/lang-cn.png" class="img-responsive" alt="">
+                    <span>獲取儲物櫃號.</span>
+                </div>
+            </div>
         </div>
 
+        <!-- <div class="c-nav">
+            <ol>
+                <li class="active"><span></span></li>
+                <li><span></span></li>
+            </ol>
+        </div> -->
+
+    </div>
+
+
+    <div class="form-wrapper">
+        <!-- <img src="assets/img/person-icon.png" alt="" class="img-resposive"> -->
+
+        <!-- <div class="form-text"  [routerLink]="['/location']">
+            {{lang_content[lang].topic_1}}
+        </div> -->
+
         <div class="timeout">
-            <button mat-button *ngIf="!err_message && !RFID">
+            <!-- <button mat-button *ngIf="!err_message && !RFID">
                 <mat-icon >timer</mat-icon>
                 00:<ng-container *ngIf="timeout < 10">0</ng-container>{{timeout}}
                 
-            </button>
+            </button> -->
 
             <ng-container *ngIf="err_message">
                 {{err_message}}
             </ng-container>
 
             <div class="processing" *ngIf="processing && !err_message">
-                <span>LOADING</span> 
+                <span>LOADING</span>
                 <div class="progess"></div>
             </div>
-            
+
         </div>
 
         <div class="loading" *ngIf="loading">
@@ -35,14 +89,14 @@
             <div class="container">
                 <span class="circle">
                     <mat-icon>keyboard_arrow_down</mat-icon>
-                  <!-- <i class="fa fa-arrow-down"></i> -->
+                    <!-- <i class="fa fa-arrow-down"></i> -->
                 </span>
                 <span class="pulse"></span>
-              </div>
+            </div>
         </div>
 
-        
-        
+
+
     </div>
 
 </div>

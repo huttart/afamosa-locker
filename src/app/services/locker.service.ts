@@ -20,9 +20,18 @@ export class LockerService {
 
   activateLockerByRfid(rfid) {
     return this.http.get(this.api_url + 'activateLockerByRfid', {
-      params : {
+      params: {
         rfid: rfid,
         lang: this.lang
+      }
+    }).toPromise();
+  }
+
+  insertTask(title) {
+    return this.http.get(this.api_url + 'insertTask', {
+      params: {
+        locker_id: title,
+        state: "1"
       }
     }).toPromise();
   }

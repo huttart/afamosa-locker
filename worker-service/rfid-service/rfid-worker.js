@@ -5,6 +5,10 @@ const path = require('path');
 const dllPath = path.resolve(__dirname + '/mwrf32.dll');
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
+const request = require('request');
+var base_url = 'http://127.0.0.1/gmc-locker-api/';
+var WebCamera = require("webcamjs");
+var enabledWebCamera = false;
 
 const lib = ffi.Library(dllPath, {
     'rf_init': ['int  ', ['int', 'long']],
@@ -23,6 +27,8 @@ let message2UI = (command, payload) => {
         payload: payload
     });
 }
+
+openCamera();
 
 ipcRenderer.on('message-from-main-renderer', (event, arg) => {
     let payload = arg.payload;
@@ -66,7 +72,44 @@ ipcRenderer.on('message-to-arduino', (event, arg) => {
 
 });
 
+ipcRenderer.on('take-photo-request', (event, arg) => {
+    console.log(arg);
+    if (enabledWebCamera) {
+        WebCamera.snap(function (data_uri) {
+            // console.log(data_uri);
+            // document.getElementById('results').innerHTML =
+            //     '<img src="' + data_uri + '"/>';
+            var post_data = {
+                url:data_uri,
+                log_id:arg.payload
+            }
+
+            console.log(post_data);
+            request({
+                url: base_url + 'image/insertImage',
+                body: JSON.stringify(post_data)
+            }, (error, response, body) => {
+                if (error) { return console.log(error); }
+                // if (element) element.innerText = response.statusCode;
+            });
+        });
+    } else {
+        openCamera();
+    }
+});
 
 
 
 
+
+function openCamera () {
+    if (!enabledWebCamera) { // Start the camera !
+        enabledWebCamera = true;
+        WebCamera.attach('#camdemo');
+        console.log("The camera has been started");
+    } else { // Disable the camera !
+        enabledWebCamera = false;
+        WebCamera.reset();
+        console.log("The camera has been disabled");
+    }
+}

@@ -27,6 +27,7 @@ export class ManualComponent implements OnInit {
   rf_reader;
 
   lang;
+  mbg = 'assets/img/mbg-';
 
 
   lang_content = {
@@ -83,6 +84,9 @@ export class ManualComponent implements OnInit {
     //   }
     // }, 1000);
 
+    this.mbg = this.mbg + (Math.floor(Math.random() * 3) + 1) + '_1.png';
+    console.log(this.mbg);
+
     this._ElectronService.rfidReaderInit('');
     this.readDataFromRfidReader();
   }
@@ -115,14 +119,19 @@ export class ManualComponent implements OnInit {
       setTimeout(() => {
         if (avalible_locker.status) {
           console.log(avalible_locker);
+          this._ElectronService.takePhotoRequest(avalible_locker.data.log_id);
           this._LockerService.avalible_locker = avalible_locker.data;
           this.sendDataToArduino(avalible_locker.data);
 
         } else {
           this.err_message = avalible_locker.error;
           setTimeout(() => {
-            // console.log('888');
-            this.router.navigate(['/']);
+            console.log('888');
+            // this.router.navigate(['/']);
+            // this.readDataFromRfidReader();
+            this.router.navigate(['/location']);
+
+            // window.location.reload();
           }, 2000);
         }
       }, 1000);

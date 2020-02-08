@@ -159,5 +159,15 @@ export class ElectronService {
     }
   }
 
+  takePhotoRequest (data) {
+    if (this.isElectron()) {
+      console.log('take photo');
+      this.ipcRenderer.send('take-photo-request', {
+        command: 'take-photo-request',
+        payload: data
+      });
+    }
+  }
+
 
 }

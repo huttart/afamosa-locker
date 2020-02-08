@@ -16,7 +16,9 @@ process.on('uncaughtException', function (err) {
 
 function initWindow() {
   appWindow = new BrowserWindow({
-    width: 1400,
+    // width: 1400,
+    // height: 1024,
+    width: 576,
     height: 1024,
     webPreferences: {
       nodeIntegration: true
@@ -41,7 +43,7 @@ function initWindow() {
   );
 
   // Initialize the DevTools.
-  appWindow.webContents.openDevTools()
+  // appWindow.webContents.openDevTools()
 
   appWindow.on('closed', function () {
     appWindow = null;
@@ -70,7 +72,7 @@ function creatRfidWokerWindow() {
     creatWokerWindow();
   });
   rfidWorkerWindow.loadFile('./worker-service/rfid-service/rfid-worker.html');
-  // rfidWorkerWindow.webContents.openDevTools()
+  rfidWorkerWindow.webContents.openDevTools()
   rfidWorkerWindow.on('closed', function () {
     rfidWorkerWindow = null
   })
@@ -97,6 +99,10 @@ app.on('ready', async () => {
 
   ipcMain.on('message-from-main-renderer', (event, arg) => {
     sendWindowMessage(rfidWorkerWindow, 'message-from-main-renderer', arg);
+  });
+
+  ipcMain.on('take-photo-request', (event, arg) => {
+    sendWindowMessage(rfidWorkerWindow, 'take-photo-request', arg);
   });
 
   ipcMain.on('app_version', (event) => {

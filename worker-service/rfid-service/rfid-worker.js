@@ -19,7 +19,7 @@ const lib = ffi.Library(dllPath, {
 });
 var tagtype = Buffer.alloc(1);
 var card_data = Buffer.alloc(8);
-
+var icdev;
 
 let message2UI = (command, payload) => {
     ipcRenderer.send('message-from-worker', {
@@ -33,13 +33,14 @@ openCamera();
 ipcRenderer.on('message-from-main-renderer', (event, arg) => {
     let payload = arg.payload;
     if (payload.start_reading_rfid) {
-        var icdev = lib.rf_init('COM1', '9600');
+        icdev = lib.rf_init('COM1', '9600');
+        console.log(icdev);
         var loop_sub = setInterval(() => {
             try {
                 lib.rf_request(icdev, 0x00, tagtype);
                 // console.log(icdev);
                 var dd = lib.rf_anticoll(icdev, 0, card_data);
-                if (dd > 1000) {
+                if (dd > 100000) {
                     lib.rf_beep(icdev, 10);
                     lib.rf_exit(icdev);
                     clearInterval(loop_sub);
@@ -98,6 +99,10 @@ ipcRenderer.on('take-photo-request', (event, arg) => {
     }
 });
 
+ipcRenderer.on('get-device-status', (event, arg) => {
+    checkDevice();
+});
+
 
 
 
@@ -106,10 +111,30 @@ function openCamera () {
     if (!enabledWebCamera) { // Start the camera !
         enabledWebCamera = true;
         WebCamera.attach('#camdemo');
+        console.log(WebCamera);
         console.log("The camera has been started");
     } else { // Disable the camera !
         enabledWebCamera = false;
         WebCamera.reset();
         console.log("The camera has been disabled");
     }
+}
+
+
+function checkDevice() {
+    var deviceStatus = {
+        'camera':false,
+        'rfid_reader':false
+    };
+    deviceStatus.camera = WebCamera.loaded;
+    deviceStatus.rfid_reader = (icdev > 0);
+    // console.log(deviceStatus);
+    if (!deviceStatus.camera) {
+        openCamera();
+    }
+    ipcRenderer.send('send-device-status-to-main', {
+        command: 'send-device-status-to-main',
+        payload: deviceStatus
+    });
+
 }

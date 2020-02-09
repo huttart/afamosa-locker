@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './services/electron.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,17 @@ export class AppComponent {
   update_avalible = false;
   update_downloaded = false;
   interval_sub;
+  interval_sub2;
   version = 'Version 1.0.0';
+  device_status = {
+    camera:false,
+    rfid_reader:false
+  }
+  checking_device = true;
+  timeout = 5;
   constructor (
-    private _ElectronService: ElectronService
+    private _ElectronService: ElectronService,
+    private router: Router,
   ) {
     _ElectronService.getAppVersion();
     this.checkForUpdate();
@@ -38,6 +47,21 @@ export class AppComponent {
       }
       limit = limit - 1;
     }, 1000);
+    
+    this.interval_sub2 = setInterval(() => {
+      this._ElectronService.checkDeviceStatus();
+      this.device_status = this._ElectronService.device_status;
+      this.checking_device = (this.device_status.camera && this.device_status.rfid_reader);
+      this.timeout--;
+      if (this.device_status.camera && this.device_status.rfid_reader) {
+        // clearInterval(this.interval_sub2);
+      }
+      if (this.timeout == 0 && !this.checking_device) {
+        this.timeout = 5;
+        this.router.navigate(['/location']);
+
+      }
+    }, 2000);
 
   }
 

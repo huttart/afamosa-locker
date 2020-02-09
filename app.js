@@ -6,6 +6,7 @@ const url = require("url");
 const path = require("path");
 const { ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const AutoLaunch = require('auto-launch');
 
 let appWindow, rfidWorkerWindow
 
@@ -24,7 +25,7 @@ function initWindow() {
       nodeIntegration: true
     }
   })
-
+  appWindow.maximize()
   appWindow.setMenu(null);
 
   appWindow.webContents.on('crashed', (e) => {
@@ -72,7 +73,7 @@ function creatRfidWokerWindow() {
     creatWokerWindow();
   });
   rfidWorkerWindow.loadFile('./worker-service/rfid-service/rfid-worker.html');
-  rfidWorkerWindow.webContents.openDevTools()
+  // rfidWorkerWindow.webContents.openDevTools()
   rfidWorkerWindow.on('closed', function () {
     rfidWorkerWindow = null
   })
@@ -93,6 +94,14 @@ function sendMessageForAutoUpdate(message, payload) {
 app.on('ready', async () => {
   initWindow();
 
+  let autoLaunch = new AutoLaunch({
+    name: 'Afamosa locker',
+    path: app.getPath('exe'),
+  });
+  autoLaunch.isEnabled().then((isEnabled) => {
+    if (!isEnabled) autoLaunch.enable();
+  });
+
   ipcMain.on('message-from-worker', (event, arg) => {
     sendWindowMessage(appWindow, 'message-from-worker', arg);
   });
@@ -103,6 +112,14 @@ app.on('ready', async () => {
 
   ipcMain.on('take-photo-request', (event, arg) => {
     sendWindowMessage(rfidWorkerWindow, 'take-photo-request', arg);
+  });
+
+  ipcMain.on('get-device-status', (event, arg) => {
+    sendWindowMessage(rfidWorkerWindow, 'get-device-status', arg);
+  });
+
+  ipcMain.on('send-device-status-to-main', (event, arg) => {
+    sendWindowMessage(appWindow, 'send-device-status-from-worker', arg);
   });
 
   ipcMain.on('app_version', (event) => {

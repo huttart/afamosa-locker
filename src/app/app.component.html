@@ -37,6 +37,24 @@
   </div>
 </div>
 
+<ng-container *ngIf="!update_avalible">
+  <div class="update-notify-wrapper device-status" *ngIf="!checking_device">
+    <div id="notification" >
+      <ng-container >
+        <mat-icon [class.not-pass]="!device_status.camera">check_circle</mat-icon>
+        <p>Checking Camera</p>
+      </ng-container>
+  
+      <ng-container >
+        <mat-icon [class.not-pass]="!device_status.rfid_reader">check_circle</mat-icon>
+        <p>Checking Rfid Reader</p>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+
+
 
 
 <div class="app-version">

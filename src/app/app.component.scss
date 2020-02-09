@@ -67,7 +67,12 @@ div.main-content {
     justify-content: center;
     align-items: center;
     background: rgba(0, 0, 0, 0.33);
+    z-index: 100;
   }
 
-
+.device-status {
+    .mat-icon.not-pass {
+        color: gray !important ;
+    }
+}
  

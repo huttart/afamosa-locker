@@ -38,6 +38,11 @@ export class ElectronService {
 
   update_avalible = false;
   update_downloaded = false;
+
+  device_status = {
+    camera:false,
+    rfid_reader:false
+  }
   
 
 
@@ -52,17 +57,6 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.readline = window.require('@serialport/parser-readline');
       this.fs = window.require('fs');
-      // load c dll libary to access rfid reader
-      // this.ffi = window.require('ffi-napi');
-      // this.path = window.require('path');
-      // var dllPath = this.path.resolve('src/app/services/mwrf32.dll');
-      // this.rf_lib = this.ffi.Library(dllPath, {
-      //   'rf_init': ['int  ', ['int', 'long']],
-      //   'rf_beep': ['int  ', ['int', 'int']],
-      //   'rf_request': ['int', ['int', 'int', 'int *']],
-      //   'rf_anticoll': ['int', ['int', 'char', 'long *']],
-      //   'rf_exit': ['int', ['int']]
-      // });
 
       this.ipcRenderer.on('message-from-worker', (event, arg) => {
         let payload = arg.payload;
@@ -70,10 +64,9 @@ export class ElectronService {
         this.rfid_data = payload.rfidData;
       });
 
-      // this.ipcRenderer.on('update_downloaded', () => {
-      //   this.ipcRenderer.removeAllListeners('update_downloaded');
-      //   this.update_downloaded = true;
-      // });
+      this.ipcRenderer.on('send-device-status-from-worker', (event, arg) => {
+        this.device_status = arg.payload;
+      });
 
 
     }
@@ -166,6 +159,17 @@ export class ElectronService {
         command: 'take-photo-request',
         payload: data
       });
+    }
+  }
+
+  checkDeviceStatus () {
+    if (this.isElectron()) {
+      this.ipcRenderer.send('get-device-status', {
+        command: 'get-device-status',
+        payload: []
+      });
+      
+     
     }
   }
 

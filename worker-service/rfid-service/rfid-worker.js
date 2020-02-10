@@ -32,6 +32,7 @@ openCamera();
 
 ipcRenderer.on('message-from-main-renderer', (event, arg) => {
     let payload = arg.payload;
+
     if (payload.start_reading_rfid) {
         icdev = lib.rf_init('COM1', '9600');
         console.log(icdev);
@@ -39,6 +40,7 @@ ipcRenderer.on('message-from-main-renderer', (event, arg) => {
             try {
                 lib.rf_request(icdev, 0x00, tagtype);
                 // console.log(icdev);
+
                 var dd = lib.rf_anticoll(icdev, 0, card_data);
                 if (dd > 100000) {
                     lib.rf_beep(icdev, 10);
@@ -66,7 +68,7 @@ ipcRenderer.on('message-to-arduino', (event, arg) => {
 
         port.close(function (err) {
             console.log('port closed', err);
-            message2UI('successfuly-send-data-to-arduino','successfuly-send-data-to-arduino');
+            message2UI('successfuly-send-data-to-arduino', 'successfuly-send-data-to-arduino');
         });
     });
 
@@ -75,14 +77,16 @@ ipcRenderer.on('message-to-arduino', (event, arg) => {
 
 ipcRenderer.on('take-photo-request', (event, arg) => {
     console.log(arg);
-    if (enabledWebCamera) {
+
+    
+    if (WebCamera.loaded) {
         WebCamera.snap(function (data_uri) {
             // console.log(data_uri);
             // document.getElementById('results').innerHTML =
             //     '<img src="' + data_uri + '"/>';
             var post_data = {
-                url:data_uri,
-                log_id:arg.payload
+                url: data_uri,
+                log_id: arg.payload
             }
 
             console.log(post_data);
@@ -93,6 +97,8 @@ ipcRenderer.on('take-photo-request', (event, arg) => {
                 if (error) { return console.log(error); }
                 // if (element) element.innerText = response.statusCode;
             });
+            // WebCamera.reset();
+            // checkWebcam();
         });
     } else {
         openCamera();
@@ -107,8 +113,8 @@ ipcRenderer.on('get-device-status', (event, arg) => {
 
 
 
-function openCamera () {
-    if (!enabledWebCamera) { // Start the camera !
+function openCamera() {
+    if (!WebCamera.loaded) { // Start the camera !
         enabledWebCamera = true;
         WebCamera.attach('#camdemo');
         console.log(WebCamera);
@@ -123,12 +129,12 @@ function openCamera () {
 
 function checkDevice() {
     var deviceStatus = {
-        'camera':false,
-        'rfid_reader':false
+        'camera': false,
+        'rfid_reader': false
     };
     deviceStatus.camera = WebCamera.loaded;
     deviceStatus.rfid_reader = (icdev > 0);
-    // console.log(deviceStatus);
+    // console.log(WebCamera);
     if (!deviceStatus.camera) {
         openCamera();
     }
@@ -136,5 +142,35 @@ function checkDevice() {
         command: 'send-device-status-to-main',
         payload: deviceStatus
     });
+
+}
+
+function checkWebcam () {
+    navigator.getUserMedia = (navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
+
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia({
+            audio: true,
+            video: true
+        },
+            function (stream) {
+                // returns true if any tracks have active state of true
+                var result = stream.getVideoTracks().some(function (track) {
+                    return track.enabled && track.readyState === 'live';
+                });
+
+                if (result) {
+                    alert('Your webcam is busy!');
+                } else {
+                    alert('Not busy');
+                }
+            },
+            function (e) {
+                alert("Error: " + e.name);
+            });
+    }
 
 }

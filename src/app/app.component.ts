@@ -53,15 +53,15 @@ export class AppComponent {
       this.device_status = this._ElectronService.device_status;
       this.checking_device = (this.device_status.camera && this.device_status.rfid_reader);
       this.timeout--;
+      console.log(this.device_status);
       if (this.device_status.camera && this.device_status.rfid_reader) {
-        // clearInterval(this.interval_sub2);
+        clearInterval(this.interval_sub2);
       }
       if (this.timeout == 0 && !this.checking_device) {
         this.timeout = 5;
         this.router.navigate(['/location']);
-
       }
-    }, 2000);
+    }, 1000);
 
   }
 

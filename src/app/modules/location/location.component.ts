@@ -44,7 +44,7 @@ export class LocationComponent implements OnInit {
 
     this.settimeout_sub = setTimeout(() => {
       this.router.navigate(['/']);
-    }, 5000);
+    }, 7000);
   }
 
   ngOnDestroy(): void {

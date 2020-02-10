@@ -84,7 +84,7 @@ export class ManualComponent implements OnInit {
     //   }
     // }, 1000);
 
-    this.mbg = this.mbg + (Math.floor(Math.random() * 3) + 1) + '_1.png';
+    this.mbg = this.mbg + (Math.floor(Math.random() * 3) + 1) + '.png';
     console.log(this.mbg);
 
     this._ElectronService.rfidReaderInit('');

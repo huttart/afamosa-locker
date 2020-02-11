@@ -19,7 +19,7 @@ const lib = ffi.Library(dllPath, {
 });
 var tagtype = Buffer.alloc(1);
 var card_data = Buffer.alloc(8);
-var icdev;
+var icdev = -999;
 
 let message2UI = (command, payload) => {
     ipcRenderer.send('message-from-worker', {
@@ -28,34 +28,14 @@ let message2UI = (command, payload) => {
     });
 }
 
-openCamera();
 
 ipcRenderer.on('message-from-main-renderer', (event, arg) => {
     let payload = arg.payload;
-
-    if (payload.start_reading_rfid) {
-        icdev = lib.rf_init('COM1', '9600');
-        console.log(icdev);
-        var loop_sub = setInterval(() => {
-            try {
-                lib.rf_request(icdev, 0x00, tagtype);
-                // console.log(icdev);
-
-                var dd = lib.rf_anticoll(icdev, 0, card_data);
-                if (dd > 100000) {
-                    lib.rf_beep(icdev, 10);
-                    lib.rf_exit(icdev);
-                    clearInterval(loop_sub);
-                    // icdev = lib.rf_init('COM1', '9600');
-                    message2UI('sendRfidData', { rfidData: card_data.toString('hex') });
-                }
-            } catch (error) {
-                lib.rf_exit(icdev);
-            }
-
-        }, 300);
-    }
-
+    setTimeout(() => {
+        if (payload.start_reading_rfid) {
+            readingRfid();
+        }
+    }, 300);
 });
 
 
@@ -78,7 +58,7 @@ ipcRenderer.on('message-to-arduino', (event, arg) => {
 ipcRenderer.on('take-photo-request', (event, arg) => {
     console.log(arg);
 
-    
+
     if (WebCamera.loaded) {
         WebCamera.snap(function (data_uri) {
             // console.log(data_uri);
@@ -88,8 +68,11 @@ ipcRenderer.on('take-photo-request', (event, arg) => {
                 url: data_uri,
                 log_id: arg.payload
             }
-
             console.log(post_data);
+            console.log(post_data.url.length);
+            if (post_data.url.length < 20000) {
+                WebCamera.reset();
+            }
             request({
                 url: base_url + 'image/insertImage',
                 body: JSON.stringify(post_data)
@@ -111,7 +94,45 @@ ipcRenderer.on('get-device-status', (event, arg) => {
 
 
 
+function readingRfid() {
+    openCamera();
+    if (icdev < 0) {
+        icdev = lib.rf_init('COM1', '9600');
+    }
+    console.log(icdev);
+    var loop_sub = setInterval(() => {
+        try {
+            lib.rf_request(icdev, 0x00, tagtype);
 
+            var dd = lib.rf_anticoll(icdev, 0, card_data);
+            // console.log(icdev);
+            // console.log(dd);
+
+            if (dd > 100000) {
+                // console.log('end');
+                lib.rf_beep(icdev, 10);
+                lib.rf_exit(icdev);
+                clearInterval(loop_sub);
+                icdev = -99;
+                // icdev = lib.rf_init('COM1', '9600');
+                message2UI('sendRfidData', { rfidData: card_data.toString('hex') });
+            }
+            if (dd < 0) {
+                // console.log('-----');
+                lib.rf_exit(icdev);
+                icdev = -99;
+                icdev = lib.rf_init('COM1', '9600');
+                console.log('icdev = ' + icdev);
+            }
+        } catch (error) {
+            clearInterval(loop_sub);
+            lib.rf_exit(icdev);
+            icdev = -99;
+            readingRfid();
+        }
+
+    }, 600);
+}
 
 function openCamera() {
     if (!WebCamera.loaded) { // Start the camera !
@@ -120,9 +141,9 @@ function openCamera() {
         console.log(WebCamera);
         console.log("The camera has been started");
     } else { // Disable the camera !
-        enabledWebCamera = false;
-        WebCamera.reset();
-        console.log("The camera has been disabled");
+        // enabledWebCamera = false;
+        // WebCamera.reset();
+        // console.log("The camera has been disabled");
     }
 }
 
@@ -145,7 +166,7 @@ function checkDevice() {
 
 }
 
-function checkWebcam () {
+function checkWebcam() {
     navigator.getUserMedia = (navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||

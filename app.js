@@ -25,6 +25,11 @@ function initWindow() {
       nodeIntegration: true
     }
   })
+
+  globalShortcut.register('f5', function() {
+		console.log('f5 is pressed')
+		mainWindow.reload()
+	})
   appWindow.maximize()
   appWindow.setMenu(null);
 

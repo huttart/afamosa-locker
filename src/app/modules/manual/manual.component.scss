@@ -6,6 +6,7 @@
     background-repeat: no-repeat;
     background-color: white;
     background-position-y: -10%;
+    overflow: hidden;
 }
 
 h2 {
@@ -248,13 +249,17 @@ h2 {
   .circle {
     background-color:#fff;
     height: 120px;
-    width: 160px;
+    width: 120px;
     display: block;
     border: 5px solid #66b0ff;
     border-radius: 100px;
     position: absolute;
     bottom: 0;
     z-index: 1;
+
+    display: flex;
+    // align-items: center;
+    justify-content: center;
     // animation-name:circle;
     // animation-duration:1s;
     // animation-timing-function:linear;
@@ -272,9 +277,10 @@ h2 {
         width: 1em;
         // bottom: 27px;
         position: absolute;
-        left: 50%;
+        // left: 0;
+        // right: 0;
         color: #66b0ff;
-        transform: translateX(-50%);
+        // transform: translateX(-50%);
         transform: translateY(10px);
 
         animation-name:arrow;
@@ -297,7 +303,7 @@ h2 {
       z-index: 0;
       background-color: transparent;
       opacity: 0;
-      width: 150px;
+      width: 110px;
       height: 110px;
       border: 10px solid #00baff;
       -webkit-border-radius: 100px;
@@ -312,10 +318,10 @@ h2 {
   }
   @keyframes arrow
       {
-      0%   {left:0;}
-      40% {left:70px;}
-      70% {left: 20px;}
-      100% {left: 0;}
+      0%   {top:-10px;}
+      40% {top: 30px;}
+      70% {top: 20px;}
+      100% {top: -10px;}
       }
  
   @keyframes circle

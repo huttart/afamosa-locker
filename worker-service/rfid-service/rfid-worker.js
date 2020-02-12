@@ -6,7 +6,7 @@ const dllPath = path.resolve(__dirname + '/mwrf32.dll');
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 const request = require('request');
-var base_url = 'http://127.0.0.1/gmc-locker-api/';
+var base_url = 'http://192.168.1.156/gmc-locker-api/';
 var WebCamera = require("webcamjs");
 var enabledWebCamera = false;
 

@@ -117,6 +117,7 @@ export class ManualComponent implements OnInit {
 
     this._LockerService.activateLockerByRfid(rfid).then((avalible_locker: any) => {
       setTimeout(() => {
+        console.log('------------------');
         if (avalible_locker.status) {
           console.log(avalible_locker);
           this._ElectronService.takePhotoRequest(avalible_locker.data.log_id);
@@ -125,7 +126,9 @@ export class ManualComponent implements OnInit {
 
         } else {
           this.err_message = avalible_locker.error;
+          this._LockerService.avalible_locker = null;
           setTimeout(() => {
+
             console.log('888');
             // this.router.navigate(['/']);
             // this.readDataFromRfidReader();
@@ -135,6 +138,8 @@ export class ManualComponent implements OnInit {
           }, 2000);
         }
       }, 1000);
+    }).catch(err => {
+      this.router.navigate(['/location']);
     });
   }
 

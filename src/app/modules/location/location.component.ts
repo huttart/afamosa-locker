@@ -36,11 +36,15 @@ export class LocationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this._LockerService.avalible_locker);
     this.lang = this._LockerService.lang;
     this.avalible_locker = this._LockerService.avalible_locker;
+    this._LockerService.avalible_locker = null;
+    console.log(this._LockerService.avalible_locker);
     if (!this.avalible_locker) {
       this.router.navigate(['/']);
     }
+
 
     this.settimeout_sub = setTimeout(() => {
       this.router.navigate(['/']);

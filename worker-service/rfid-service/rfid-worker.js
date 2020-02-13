@@ -20,7 +20,7 @@ const lib = ffi.Library(dllPath, {
 var tagtype = Buffer.alloc(1);
 var card_data = Buffer.alloc(8);
 var icdev = -999;
-
+var loop_sub;
 let message2UI = (command, payload) => {
     ipcRenderer.send('message-from-worker', {
         command: command,
@@ -99,8 +99,12 @@ function readingRfid() {
     if (icdev < 0) {
         icdev = lib.rf_init('COM1', '9600');
     }
+    if (loop_sub) {
+        clearInterval(loop_sub);
+    }
     console.log(icdev);
-    var loop_sub = setInterval(() => {
+    console.log('reading rfid');
+    loop_sub = setInterval(() => {
         try {
             lib.rf_request(icdev, 0x00, tagtype);
 

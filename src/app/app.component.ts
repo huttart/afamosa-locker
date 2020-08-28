@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './services/electron.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { SetipComponent } from './shared/setip/setip.component';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +26,14 @@ export class AppComponent {
   constructor (
     private _ElectronService: ElectronService,
     private router: Router,
+    public dialog: MatDialog,
+
   ) {
     _ElectronService.getAppVersion();
     this.checkForUpdate();
 
     console.log(this.version);
+    console.log(environment.api_url)
   }
 
   checkForUpdate () {
@@ -67,5 +73,10 @@ export class AppComponent {
 
   restartApp () {
     this._ElectronService.RestartAndInstallUpdate();
+  }
+
+  setip () {
+    console.log('setting ip')
+    this.dialog.open(SetipComponent)
   }
 }

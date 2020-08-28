@@ -141,6 +141,12 @@ export class ElectronService {
     }
   }
 
+  Restart () {
+    if (this.isElectron()) {
+      this.ipcRenderer.send('restart');
+    }
+  }
+
   messageToArduino(data) {
     console.log('sendDataToArduino 2');
     if (this.isElectron()) {
